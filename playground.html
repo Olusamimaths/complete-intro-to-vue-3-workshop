@@ -9,13 +9,45 @@
   <body>
     <h1>Hello Frontend Masters!</h1>
     <div id="app">
+      <p>Count: {{ count }}</p>
+      <button v-on:click="increment">Increment Count</button>
+      <!-- 
+        @click is a shorthand for v-on:click 
+          i.e @ is a shorthand for v-on:
+        : is a shorthand for v-bind:
+       -->
+      <div>
+        <label for="step">Step</label>
+        <input type="number" min="1" max="10" step="1" v-model="step" />
+        <!-- 
+          v-model is a two-way binding, it is a shorthand for:
+            v-bind:value="step"
+            v-on:input="changeStep" 
+        -->
+      </div>
+
+      <hr />
+
       <p v-if="message.length % 2 == 0">Even: {{ message }}</p>
       <p v-else>Odd: {{ message }}</p>
       <ul>
         <li v-for="fruit in listsOfFruits">
-          {{ fruit }}
+          <p>{{ fruit }}</p>
+          <button @click="addToFavourites(fruit)">Favourite</button>
         </li>
       </ul>
+      <div>
+        <label for="newFruit">New Fruit</label>
+        <input type="text" v-model="newFruit" @keyup.enter="addNewFruit" />
+      </div>
+
+      <hr /> 
+
+      <h1>Favourite Fruits</h1>
+      <ul v-if="favouriteFruits.length > 0">
+        <li v-for="fruit in favouriteFruits"><p>{{ fruit }}</p></li>
+      </ul>
+      <p v-else>No favourite fruit</p>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -25,7 +57,23 @@
           return {
             message: "Konibaje! Obajeti!!",
             listsOfFruits: ["Apple", "Banana", "Mango", "Orange"],
+            count: 10,
+            step: 1,
+            favouriteFruits: [],
+            newFruit: "",
           };
+        },
+        methods: {
+          increment() {
+            this.count += this.step;
+          },
+          addToFavourites(fruit) {
+            this.favouriteFruits.push(fruit);
+          },
+          addNewFruit() {
+            this.listsOfFruits.push(this.newFruit);
+            this.newFruit = "";
+          },
         },
       });
       app.mount("#app");
