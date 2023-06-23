@@ -9,6 +9,7 @@
   <body>
     <h1>Hello Frontend Masters!</h1>
     <div id="app">
+      <h1> {{ getCounterTitle }} </h1>
       <p>Count: {{ count }}</p>
       <button v-on:click="increment">Increment Count</button>
       <!-- 
@@ -52,7 +53,8 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
       const { createApp } = Vue;
-      const app = createApp({
+      const app = createApp(
+        {
         data() {
           return {
             message: "Konibaje! Obajeti!!",
@@ -61,7 +63,17 @@
             step: 1,
             favouriteFruits: [],
             newFruit: "",
+            counterTitle: "Counter"
           };
+        },
+        computed: {
+          getCounterTitle() {
+            if(this.count > 20) {
+              return "Wow, that's a lot of clicks!";
+            } else {
+              return "Counter Standard";
+            }
+          }
         },
         methods: {
           increment() {
@@ -75,7 +87,8 @@
             this.newFruit = "";
           },
         },
-      });
+      }
+      );
       app.mount("#app");
     </script>
   </body>
